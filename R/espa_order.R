@@ -54,27 +54,7 @@ espa_order <- function(input_ids, product, file_format = "gtiff", resampling_met
     username = tryCatch(espa_get_creds()[1], error = function(e) stop("Please set your espa-api creds in espa_creds()"))
     password = tryCatch(espa_get_creds()[2], error = function(e) stop("Please set your espa-api creds in espa_creds()"))
   }
-  # checking if username password valid and all the requested products exists
-  valid = espa_products(input_ids = input_ids, host = host, username = username, password = password)
-  if(!is.null(valid)){
-    valid = valid$master
-    # if the product doesnt exists for even one
-    if(sum(product %in% colnames(valid)) != length(product)){
-      cat("Invalid product selection. Please check the 'product_available' dataframe\n")
-      return(list(order_details = list(), response = NA, product_available = valid))
-    }
-
-    # if a single 0 in the product column requested, error returned
-    for(prod in 1:length(product)){
-      if(sum(valid[,product[prod]]) != nrow(valid)){
-        cat("Invalid product selection. Please check the 'product_available' dataframe\n")
-        return(list(order_details = list(), response = NA, product_available = valid))
-      }
-    }
-
-  } else{
-    return(list(order_details = list(), response = NA, product_available = valid))
-  }
+                                        
 
   # ====== Building JSON to pass to API =========
   # inputting landsat8 product id and products to order
