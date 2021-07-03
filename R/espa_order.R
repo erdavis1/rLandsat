@@ -102,16 +102,18 @@ espa_order <- function(input_ids, product, file_format = "gtiff", resampling_met
                      body = order_query),error = function(e) {FALSE})
   if(is.logical(pp)){
     cat("Order Failed!\n")
-    return(list(order_details = list(), response = pp, product_available = valid, query = order_query))
+    return(list(order_details = list(), response = pp, query = order_query))
   }
+                        
+                        
   status = pp$status_code
   if(substr(as.character(status),1,1) == 2){
     cat("Order Successful!\n")
     order = fromJSON(rawToChar(pp$content))
-    return(list(order_details = order, response = pp, product_available = valid, query = order_query))
+    return(list(order_details = order, response = pp, query = order_query))
   } else{
     cat("Order Failed!\n")
-    return(list(order_details = list(), response = pp, product_available = valid, query = order_query))
+    return(list(order_details = list(), response = pp,  query = order_query))
   }
 
   }
